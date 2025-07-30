@@ -54,8 +54,8 @@ const BusinessAnalyticsPage: React.FC = () => {
   return (
     <div className="min-h-screen p-6 sm:p-8 lg:p-10 font-sans text-gray-900 dark:text-white">
       {/* Header Section */}
-      <div className={cn("mb-8 p-3 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl", pacifico.className)}>
-        <h1 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">Business Analytics</h1>
+      <div className="mb-8 p-3 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl">
+        <h1 className={cn("text-lg bg-clip-text text-transparent bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 dark:from-orange-400 dark:via-orange-300 dark:to-orange-400 font-bold text-zinc-900 dark:text-zinc-100", pacifico.className)}>Business Analytics</h1>
         <p className="text-zinc-800 dark:text-zinc-200 text-xs">Comprehensive insights into business performance and trends</p>
       </div>
 
