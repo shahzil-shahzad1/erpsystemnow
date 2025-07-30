@@ -25,7 +25,7 @@ export const analyticsOverviewCards: StatCardProps[] = [
 export const financialTrendData = {
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
   datasets: [
-    { label: 'Revenue ($K)', data: [500, 550, 600, 580, 650, 700, 680], fill: false, borderColor: '#f5793b', tension: 0.1 },
+    { label: 'Revenue ($K)', data: [500, 550, 600, 580, 650, 700, 680], fill: false, borderColor: 'rgb(40, 167, 69)', tension: 0.1 },
     { label: 'Gross Profit ($K)', data: [200, 220, 240, 230, 260, 280, 270], fill: false, borderColor: 'rgb(54, 162, 235)', tension: 0.1 },
     { label: 'Net Profit ($K)', data: [90, 100, 110, 105, 120, 130, 125], fill: false, borderColor: '#f5793b', tension: 0.1 },
   ],
