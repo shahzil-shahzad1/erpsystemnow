@@ -18,8 +18,11 @@ const pacifico = Pacifico({
   variable: "--font-pacifico",
 });
 
+  const customerLinks = ['Invoices', 'Credit Notes', 'Payments', 'Customers'];
+  const vendorLinks = ['Bills', 'Refunds', 'Payments', 'Products', 'Vendors'];
+
 // --- COMPONENT: Dropdown ---
-const Dropdown = ({ title, icon: Icon, links }) => {
+const Dropdown = ({ title, links }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLinkClick = (link) => {
@@ -158,8 +161,8 @@ const InvoicesPage: React.FC = () => {
             </select>
             <ChevronDown size={18} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 pointer-events-none" /> {/* Adjusted icon size and position */}
           </div>
-         <Dropdown title="Customer" icon={FilePlus} links={customerLinks} />
-          <Dropdown title="Vendor" icon={Upload} links={vendorLinks} />
+         <Dropdown title="Customer" links={customerLinks} />
+          <Dropdown title="Vendor" links={vendorLinks} />
         </div>
       </div>
 
