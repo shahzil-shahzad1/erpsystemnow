@@ -81,13 +81,11 @@ const Navbar = ({ onNavLinkClick }) => {
     );
   };
   
-  const ordersLinks = ['Quotation', 'Orders', 'Customers'];
-  const productsLinks = ['Orders to Invoice', 'Orders to Upsell'];
+  const payrollLinks = ['Employees', 'Salary Attachments', 'Payslips'];
   
   return (
     <div className="flex flex-col md:flex-row gap-4 p-6 sm:p-8 lg:p-10 z-20">
-      <NavDropdown title="Orders" icon={ShoppingCart} links={ordersLinks} />
-      <NavDropdown title="To Invoice" icon={Package} links={productsLinks} />
+      <NavDropdown title="Dashboard" links={payrollLinks} />
     </div>
   );
 };
