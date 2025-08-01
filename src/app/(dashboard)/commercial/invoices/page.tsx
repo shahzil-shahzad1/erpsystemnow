@@ -2,8 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, ChevronDown} from 'lucide-react';
-import { Pie, Line } from 'react-chartjs-2';
+import { Search, ChevronDown } from 'lucide-react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend } from 'chart.js';
 
 // Register Chart.js components
@@ -18,14 +17,18 @@ const pacifico = Pacifico({
   variable: "--font-pacifico",
 });
 
-  const customerLinks = ['Invoices', 'Credit Notes', 'Payments', 'Customers'];
-  const vendorLinks = ['Bills', 'Refunds', 'Payments', 'Products', 'Vendors'];
+const customerLinks = ['Invoices', 'Credit Notes', 'Payments', 'Customers'];
+const vendorLinks = ['Bills', 'Refunds', 'Payments', 'Products', 'Vendors'];
 
+interface Dropdownprops {
+  title: string;
+  links: string[];
+}
 // --- COMPONENT: Dropdown ---
-const Dropdown = ({ title, links }) => {
+const Dropdown = ({ title, links }: Dropdownprops) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLinkClick = (link) => {
+  const handleLinkClick = (link: string) => {
     // In a real application, you would navigate here.
     // Replaced alert with console.log for a better user experience in this environment.
     console.log(`Navigating to ${link}...`);
@@ -38,12 +41,12 @@ const Dropdown = ({ title, links }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="bg-white/50 dark:bg-gray-800/50 text-black dark:text-white flex items-center justify-center py-1.5 px-3 rounded-lg shadow-md hover:bg-[#e5a004] transition-all duration-200 w-full sm:w-auto whitespace-nowrap text-sm"
       >
-{/*         <Icon size={18} className="mr-1.5" /> */}
+        {/*         <Icon size={18} className="mr-1.5" /> */}
         {title}
         <ChevronDown size={16} className={`ml-2 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+        <div className="absolute z-50 right-0 mt-2 w-48 bg-white/90 dark:bg-black/80 backdrop-blur-md  rounded-lg shadow-lg  border border-gray-200 dark:border-gray-700">
           <ul className="py-1">
             {links.map((link, index) => (
               <li key={index}>
@@ -73,12 +76,6 @@ import { invoiceCardsData } from '@/lib/commercialdata';
 // Dummy data for All Invoices Table
 import { invoiceData } from '@/lib/commercialdata';
 
-// Dummy data for Invoice Status Breakdown Chart
-import { invoiceStatusData } from '@/lib/commercialdata';
-
-// Dummy data for Revenue Trend Chart
-import { revenueTrendData } from '@/lib/commercialdata';
-
 
 const InvoicesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -97,17 +94,9 @@ const InvoicesPage: React.FC = () => {
     setFilterType(event.target.value);
   };
 
-  const handleCreateNewInvoice = () => {
-    alert("Create New Invoice button clicked!");
-  };
-
-  const handleUploadInvoice = () => {
-    alert("Upload Invoice button clicked!");
-  };
-
   const filteredInvoices = invoiceData.filter(invoice => {
     const matchesSearch = invoice.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          invoice.entity.toLowerCase().includes(searchTerm.toLowerCase());
+      invoice.entity.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'All' || invoice.status === filterStatus;
     const matchesType = filterType === 'All' || invoice.type === filterType;
     return matchesSearch && matchesStatus && matchesType;
@@ -116,13 +105,20 @@ const InvoicesPage: React.FC = () => {
   return (
     <div className="min-h-screen p-6 sm:p-8 lg:p-10 font-sans text-gray-900 dark:text-white">
       {/* Header Section */}
-      <div className="mb-8 p-2 rounded-xl inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md">
-        <h1 className={cn("text-lg font-bold text-zinc-900 dark:text-zinc-100",pacifico.className) }>Invoices</h1>
-        <p className="text-zinc-800 dark:text-zinc-200 text-xs">Manage incoming and outgoing financial documents</p>
+      <div className="mb-8 p-2 rounded-xl inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md flex justify-between items-center relative z-10">
+        <div className="">
+          <h1 className={cn("text-lg font-bold text-zinc-900 dark:text-zinc-100", pacifico.className)}>Invoices</h1>
+          <p className="text-zinc-800 dark:text-zinc-200 text-xs">Manage incoming and outgoing financial documents</p>
+        </div>
+        <div className="flex gap-3">
+          <Dropdown title="Customer" links={customerLinks} />
+          <Dropdown title="Vendor" links={vendorLinks} />
+        </div>
       </div>
 
+
       {/* Filter/Search Bar & Action Buttons */}
-      <div className="inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-6 border border-gray-200 dark:border-zinc-900 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="relative z-[0px] inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-6 border border-gray-200 dark:border-zinc-900 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative flex-1 w-full md:w-auto">
           <input
             type="text"
@@ -161,8 +157,6 @@ const InvoicesPage: React.FC = () => {
             </select>
             <ChevronDown size={18} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 pointer-events-none" /> {/* Adjusted icon size and position */}
           </div>
-         <Dropdown title="Customer" links={customerLinks} />
-          <Dropdown title="Vendor" links={vendorLinks} />
         </div>
       </div>
 
@@ -199,12 +193,11 @@ const InvoicesPage: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-700 dark:text-gray-300">{invoice.dueDate}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-700 dark:text-gray-300">${invoice.amount.toLocaleString()}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-xs">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      invoice.status === 'Paid' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
-                      invoice.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
-                      invoice.status === 'Overdue' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
-                      'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                    }`}>
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${invoice.status === 'Paid' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+                        invoice.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
+                          invoice.status === 'Overdue' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
+                            'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                      }`}>
                       {invoice.status}
                     </span>
                   </td>
@@ -217,27 +210,6 @@ const InvoicesPage: React.FC = () => {
             )}
           </tbody>
         </table>
-      </div>
-
-      {/* Bottom Row (Charts) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Invoice Status Breakdown Chart (Pie Chart) */}
-        <div className="inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-6 border border-gray-200 dark:border-zinc-900">
-          <h2 className="text-lg font-bold mb-4 text-zinc-900 dark:text-white">Invoice Status Breakdown</h2>
-          <div className="h-64">
-            <Pie data={invoiceStatusData}  />
-            {/* options={getPieChartOptions(document.documentElement.classList.contains('dark'))} */}
-          </div>
-        </div>
-
-        {/* Revenue Trend Chart (Line Chart) */}
-        <div className="inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-6 border border-gray-200 dark:border-zinc-900">
-          <h2 className="text-lg font-bold mb-4 text-zinc-900 dark:text-white">Monthly Revenue Trend</h2>
-          <div className="h-64">
-            <Line data={revenueTrendData} />
-             {/* options={getChartOptions(document.documentElement.classList.contains('dark'))} */}
-          </div>
-        </div>
       </div>
     </div>
   );
