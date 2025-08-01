@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, ChevronDown, FilePlus, Upload} from 'lucide-react';
+import { Search, ChevronDown} from 'lucide-react';
 import { Pie, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend } from 'chart.js';
 
