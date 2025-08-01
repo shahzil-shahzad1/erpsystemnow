@@ -136,9 +136,15 @@ const HRPayrollPage: React.FC = () => {
   return (
     <div className="min-h-screen p-6 sm:p-8 lg:p-10 font-sans text-gray-900 dark:text-white">
       {/* Header Section */}
-      <div className="mb-8 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md p-2 rounded-xl">
+      <div className="mb-8 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md p-2 rounded-xl flex justify-between items-center">
+        <div>
         <h1 className={cn("text-lg font-bold text-zinc-900 dark:text-zinc-100", pacifico.className)}>Payroll Management</h1>
         <p className="text-zinc-800 dark:text-zinc-200 text-xs">Manage employee compensation and financial disbursements</p>
+        </div>
+         {/* Navbar Section */}
+      <div className="relative z-20 flex flex-col md:flex-row gap-4 mb-8">
+        <Navbar onNavLinkClick={(link) => console.log(`Navigating to: ${link}`)} />
+      </div>
       </div>
 
       {/* Filter/Search Bar & Action Button */}
