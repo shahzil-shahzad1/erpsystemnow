@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Search, ChevronDown, Plus, Package, Settings, ShoppingCart} from 'lucide-react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
-
+import { LucideIcon } from "lucide-react";
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
@@ -34,14 +34,24 @@ import { lowStockReorderData } from '@/lib/commercialdata';
 // Dummy data for Purchase Trend Chart
 import { purchaseTrendData } from '@/lib/commercialdata';
 
+interface NavbarProps {
+  onNavLinkClick: (link: string) => void;
+}
+
+interface NavDropdownProps {
+  title: string;
+  icon: LucideIcon; // Replace 'any' with the actual type of your icon component
+  links: string[];
+}
+
 // --- COMPONENTS ---
 
 // Navbar Component
-const Navbar = ({ onNavLinkClick }) => {
-  const NavDropdown = ({ title, icon: Icon, links }) => {
+const Navbar = ({ onNavLinkClick }: NavbarProps) => {
+  const NavDropdown = ({ title, icon: Icon, links } : NavDropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleLinkClick = (link) => {
+    const handleLinkClick = (link: string) => {
       onNavLinkClick(link);
       setIsOpen(false);
     };
@@ -85,7 +95,7 @@ const Navbar = ({ onNavLinkClick }) => {
   const productsLinks = ['Products'];
   
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-6 sm:p-8 lg:p-10 z-20">
+    <div className="flex flex-col md:flex-row gap-4 relative z-20">
       <NavDropdown title="Orders" icon={ShoppingCart} links={ordersLinks} />
       <NavDropdown title="Configuration" icon={Settings} links={configLinks} />
       <NavDropdown title="Products" icon={Package} links={productsLinks} />
@@ -129,18 +139,20 @@ const PurchaseManagementPage: React.FC = () => {
   return (
     <div className="min-h-screen p-6 sm:p-8 lg:p-10 font-sans text-gray-900 dark:text-white">
       {/* Header Section */}
-      <div className="mb-8 p-3 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl">
+      <div className="mb-8 relative z-20 p-3 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl  flex justify-between items-center">
+      <div className="">
         <h1 className={cn("text-lg font-bold text-zinc-900 dark:text-zinc-100", pacifico.className )}>Purchase Management</h1>
         <p className="text-zinc-800 dark:text-zinc-200 text-xs">Oversee procurement processes and supplier interactions</p>
       </div>
-
       {/* Navbar Section */}
-      <div className="relative z-20 flex flex-col md:flex-row gap-4 mb-8">
+      <div className="relative z-20 flex flex-col md:flex-row gap-4">
         <Navbar onNavLinkClick={(link) => console.log(`Navigating to: ${link}`)} />
       </div>
+      </div>
+
       
       {/* Filter/Search Bar and New PO Button */}
-      <div className="inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-6 border border-gray-200 dark:border-zinc-900 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="relative z-[0px] inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-6 border border-gray-200 dark:border-zinc-900 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative flex-1 w-full md:w-auto">
           <input
             type="text"
