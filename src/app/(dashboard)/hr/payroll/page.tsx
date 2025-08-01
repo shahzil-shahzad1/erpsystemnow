@@ -37,12 +37,21 @@ import { payrollCostTrend } from '@/lib/hrdata';
 
 // --- COMPONENTS ---
 
+
+interface NavbarProps {
+  onNavLinkClick: (link: string) => void;
+}
+interface NavDropdownProps {
+  title: string;
+  links: string[];
+}
+
 // Navbar Component
-const Navbar = ({ onNavLinkClick }) => {
-  const NavDropdown = ({ title, icon: Icon, links }) => {
+const Navbar = ({ onNavLinkClick } : NavbarProps) => {
+  const NavDropdown = ({ title, links } : NavDropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleLinkClick = (link) => {
+    const handleLinkClick = (link : string) => {
       onNavLinkClick(link);
       setIsOpen(false);
     };
@@ -53,12 +62,12 @@ const Navbar = ({ onNavLinkClick }) => {
           onClick={() => setIsOpen(!isOpen)}
           className="bg-white/50 dark:bg-gray-800/50 text-black dark:text-white flex items-center justify-center py-2 px-4 rounded-lg shadow-md hover:bg-orange-500 transition-all duration-200 w-full sm:w-auto whitespace-nowrap text-sm"
         >
-          <Icon size={18} className="mr-2" />
+          {/* <Icon size={18} className="mr-2" /> */}
           {title}
           <ChevronDown size={16} className={`ml-2 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
         {isOpen && (
-          <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
             <ul className="py-1">
               {links.map((link, index) => (
                 <li key={index}>
@@ -84,7 +93,7 @@ const Navbar = ({ onNavLinkClick }) => {
   const payrollLinks = ['Employees', 'Salary Attachments', 'Payslips'];
   
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-6 sm:p-8 lg:p-10 z-20">
+    <div className="flex flex-col md:flex-row gap-4 z-20">
       <NavDropdown title="Dashboard" links={payrollLinks} />
     </div>
   );
@@ -134,19 +143,19 @@ const HRPayrollPage: React.FC = () => {
   return (
     <div className="min-h-screen p-6 sm:p-8 lg:p-10 font-sans text-gray-900 dark:text-white">
       {/* Header Section */}
-      <div className="mb-8 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md p-2 rounded-xl flex justify-between items-center">
+      <div className="mb-8 relative z-20 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md p-2 rounded-xl flex justify-between items-center">
         <div>
         <h1 className={cn("text-lg font-bold text-zinc-900 dark:text-zinc-100", pacifico.className)}>Payroll Management</h1>
         <p className="text-zinc-800 dark:text-zinc-200 text-xs">Manage employee compensation and financial disbursements</p>
         </div>
          {/* Navbar Section */}
-      <div className="relative z-20 flex flex-col md:flex-row gap-4 mb-8">
+      <div className="relative z-20 flex flex-col md:flex-row gap">
         <Navbar onNavLinkClick={(link) => console.log(`Navigating to: ${link}`)} />
       </div>
       </div>
 
       {/* Filter/Search Bar & Action Button */}
-      <div className="inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-6 border border-gray-200 dark:border-zinc-900 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="relative z-[0px] inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-6 border border-gray-200 dark:border-zinc-900 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative flex-1 w-full md:w-auto">
           <input
             type="text"
