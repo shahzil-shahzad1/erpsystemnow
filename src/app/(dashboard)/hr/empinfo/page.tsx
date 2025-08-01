@@ -33,15 +33,76 @@ import { skillDistributionData } from '@/lib/hrdata';
 // Dummy data for Recent Hires
 import { recentHiresData } from '@/lib/hrdata';
 
+// --- COMPONENTS ---
+
+// Navbar Component
+const Navbar = ({ onNavLinkClick }) => {
+  const NavDropdown = ({ title, links }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleLinkClick = (link) => {
+      onNavLinkClick(link);
+      setIsOpen(false);
+    };
+
+    return (
+      <div className="relative z-50">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="bg-white/50 dark:bg-gray-800/50 text-black dark:text-white flex items-center justify-center py-2 px-4 rounded-lg shadow-md hover:bg-orange-500 transition-all duration-200 w-full sm:w-auto whitespace-nowrap text-sm"
+        >
+          {title}
+          <ChevronDown size={16} className={`ml-2 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </button>
+        {isOpen && (
+          <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+            <ul className="py-1">
+              {links.map((link, index) => (
+                <li key={index}>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLinkClick(link);
+                    }}
+                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  };
+  
+  const empLinks = ['Administration', 'Recent Hires', 'Active', "On leave"];
+  
+  return (
+    <div className="flex flex-col md:flex-row gap-4 p-6 sm:p-8 lg:p-10 z-20">
+      <NavDropdown title="Orders"  links={empLinks} />
+    </div>
+  );
+};
+
 
 const EmployeeManagementPage: React.FC = () => {
   
   return (
     <div className="min-h-screen p-6 sm:p-8 lg:p-10 font-sans text-gray-900 dark:text-white">
       {/* Header Section */}
-      <div className="mb-8 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md p-2 rounded-xl">
+      <div className="mb-8 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md p-2 rounded-xl flex justify-between items-center">
+        <div>
         <h1 className={cn("text-lg font-bold text-zinc-900 dark:text-zinc-100", pacifico.className)}>Employee Information</h1>
         <p className="text-zinc-800 dark:text-zinc-200 text-xs">Manage employee data and organizational insights</p>
+        </div>
+        {/* Navbar Section */}
+      <div className="relative z-20 flex flex-col md:flex-row gap-4 mb-8">
+        <Navbar onNavLinkClick={(link) => console.log(`Navigating to: ${link}`)} />
+      </div>
+      <a href="/hr/empinfo/departments">Departments</a>
       </div>
 
       {/* Employee Information Cards */}
