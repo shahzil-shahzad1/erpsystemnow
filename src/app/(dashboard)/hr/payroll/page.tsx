@@ -35,6 +35,63 @@ import { recentDisbursements } from '@/lib/hrdata';
 // Dummy data for Monthly Payroll Cost Trend Chart
 import { payrollCostTrend } from '@/lib/hrdata';
 
+// --- COMPONENTS ---
+
+// Navbar Component
+const Navbar = ({ onNavLinkClick }) => {
+  const NavDropdown = ({ title, icon: Icon, links }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleLinkClick = (link) => {
+      onNavLinkClick(link);
+      setIsOpen(false);
+    };
+
+    return (
+      <div className="relative z-50">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="bg-white/50 dark:bg-gray-800/50 text-black dark:text-white flex items-center justify-center py-2 px-4 rounded-lg shadow-md hover:bg-orange-500 transition-all duration-200 w-full sm:w-auto whitespace-nowrap text-sm"
+        >
+          <Icon size={18} className="mr-2" />
+          {title}
+          <ChevronDown size={16} className={`ml-2 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </button>
+        {isOpen && (
+          <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+            <ul className="py-1">
+              {links.map((link, index) => (
+                <li key={index}>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLinkClick(link);
+                    }}
+                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  };
+  
+  const ordersLinks = ['Quotation', 'Orders', 'Customers'];
+  const productsLinks = ['Orders to Invoice', 'Orders to Upsell'];
+  
+  return (
+    <div className="flex flex-col md:flex-row gap-4 p-6 sm:p-8 lg:p-10 z-20">
+      <NavDropdown title="Orders" icon={ShoppingCart} links={ordersLinks} />
+      <NavDropdown title="To Invoice" icon={Package} links={productsLinks} />
+    </div>
+  );
+};
+
 
 const HRPayrollPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
