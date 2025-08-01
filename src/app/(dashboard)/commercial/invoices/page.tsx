@@ -18,6 +18,51 @@ const pacifico = Pacifico({
   variable: "--font-pacifico",
 });
 
+// --- COMPONENT: Dropdown ---
+const Dropdown = ({ title, icon: Icon, links }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleLinkClick = (link) => {
+    // In a real application, you would navigate here.
+    // Replaced alert with console.log for a better user experience in this environment.
+    console.log(`Navigating to ${link}...`);
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="relative z-50">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="bg-white/50 dark:bg-gray-800/50 text-black dark:text-white flex items-center justify-center py-1.5 px-3 rounded-lg shadow-md hover:bg-[#e5a004] transition-all duration-200 w-full sm:w-auto whitespace-nowrap text-sm"
+      >
+{/*         <Icon size={18} className="mr-1.5" /> */}
+        {title}
+        <ChevronDown size={16} className={`ml-2 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+          <ul className="py-1">
+            {links.map((link, index) => (
+              <li key={index}>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleLinkClick(link);
+                  }}
+                  className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  {link}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
 import InvoiceCard from '@/components/commercial/InvoiceCard';
 // Dummy data for Invoice Overview Cards
 import { invoiceCardsData } from '@/lib/commercialdata';
@@ -113,20 +158,8 @@ const InvoicesPage: React.FC = () => {
             </select>
             <ChevronDown size={18} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 pointer-events-none" /> {/* Adjusted icon size and position */}
           </div>
-          <button
-            onClick={handleCreateNewInvoice}
-            className="bg-white/50 dark:bg-gray-800/50 text-black dark:text-white flex items-center justify-center py-1.5 px-3 rounded-lg shadow-md hover:bg-[#e5a004] transition-all duration-200 w-full sm:w-auto whitespace-nowrap text-sm" // Reduced padding and font size
-          >
-            <FilePlus size={18} className="mr-1.5" /> {/* Adjusted icon size and margin */}
-            Create Invoice
-          </button>
-          <button
-            onClick={handleUploadInvoice}
-            className="bg-white/50 dark:bg-gray-800/50 text-black dark:text-white flex items-center justify-center py-1.5 px-3 rounded-lg shadow-md hover:bg-[#e5a004] transition-all duration-200 w-full sm:w-auto whitespace-nowrap text-sm" // Reduced padding and font size
-          >
-            <Upload size={18} className="mr-1.5" /> {/* Adjusted icon size and margin */}
-            Upload Invoice
-          </button>
+         <Dropdown title="Customer" icon={FilePlus} links={customerLinks} />
+          <Dropdown title="Vendor" icon={Upload} links={vendorLinks} />
         </div>
       </div>
 
