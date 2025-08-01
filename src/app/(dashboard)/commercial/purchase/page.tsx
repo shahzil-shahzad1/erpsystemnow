@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, ChevronDown, Plus} from 'lucide-react';
+import { Search, ChevronDown, Plus, Package, Settings, ShoppingCart} from 'lucide-react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 
@@ -33,6 +33,65 @@ import { lowStockReorderData } from '@/lib/commercialdata';
 
 // Dummy data for Purchase Trend Chart
 import { purchaseTrendData } from '@/lib/commercialdata';
+
+// --- COMPONENTS ---
+
+// Navbar Component
+const Navbar = ({ onNavLinkClick }) => {
+  const NavDropdown = ({ title, icon: Icon, links }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleLinkClick = (link) => {
+      onNavLinkClick(link);
+      setIsOpen(false);
+    };
+
+    return (
+      <div className="relative z-50">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="bg-white/50 dark:bg-gray-800/50 text-black dark:text-white flex items-center justify-center py-2 px-4 rounded-lg shadow-md hover:bg-orange-500 transition-all duration-200 w-full sm:w-auto whitespace-nowrap text-sm"
+        >
+          <Icon size={18} className="mr-2" />
+          {title}
+          <ChevronDown size={16} className={`ml-2 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </button>
+        {isOpen && (
+          <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+            <ul className="py-1">
+              {links.map((link, index) => (
+                <li key={index}>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLinkClick(link);
+                    }}
+                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  };
+  
+  const ordersLinks = ['Purchase Orders', 'Vendors', 'Request for Quotation'];
+  const configLinks = ['Vendor Price lists', 'Categories'];
+  const productsLinks = ['Products'];
+  
+  return (
+    <div className="flex flex-col md:flex-row gap-4 p-6 sm:p-8 lg:p-10 z-20">
+      <NavDropdown title="Orders" icon={ShoppingCart} links={ordersLinks} />
+      <NavDropdown title="Configuration" icon={Settings} links={configLinks} />
+      <NavDropdown title="Products" icon={Package} links={productsLinks} />
+    </div>
+  );
+};
 
 const PurchaseManagementPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -75,6 +134,11 @@ const PurchaseManagementPage: React.FC = () => {
         <p className="text-zinc-800 dark:text-zinc-200 text-xs">Oversee procurement processes and supplier interactions</p>
       </div>
 
+      {/* Navbar Section */}
+      <div className="relative z-20 flex flex-col md:flex-row gap-4 mb-8">
+        <Navbar onNavLinkClick={(link) => console.log(`Navigating to: ${link}`)} />
+      </div>
+      
       {/* Filter/Search Bar and New PO Button */}
       <div className="inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-6 border border-gray-200 dark:border-zinc-900 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative flex-1 w-full md:w-auto">
