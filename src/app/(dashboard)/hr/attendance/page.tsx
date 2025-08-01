@@ -69,6 +69,8 @@ const EmployeeAttendancePage: React.FC = () => {
       <div className="mb-8 inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md p-2 rounded-xl">
         <h1 className={cn("text-lg font-bold text-zinc-900 dark:text-zinc-100", pacifico.className)} >Employee Attendance</h1>
         <p className="text-zinc-800 dark:text-zinc-200 text-xs">Track employee presence, absence, and leave</p>
+        <a href="/hr/attendance/overview" className="bg-orange-300 hover:bg-orange-500">Overview</a>
+        <a href="/hr/attendance/overview" className="bg-orange-300 hover:bg-orange-500">Management</a>
       </div>
 
       {/* Filter/Search Bar & Action Button */}
